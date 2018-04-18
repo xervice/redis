@@ -13,5 +13,19 @@ use Xervice\Core\Facade\AbstractFacade;
  */
 class RedisFacade extends AbstractFacade
 {
-    // create here your facades
+    /**
+     * @throws \Xervice\Config\Exception\ConfigNotFound
+     */
+    public function init()
+    {
+        $this->getFactory()->createCommandProvider()->provideCommands();
+    }
+
+    /**
+     * @throws \Xervice\Config\Exception\ConfigNotFound
+     */
+    public function flushAll()
+    {
+        $this->getFactory()->getRedisClient()->flushall();
+    }
 }

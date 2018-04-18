@@ -16,7 +16,8 @@
     "xervice/config": "dev-master",
     "xervice/core": "dev-master",
     "xervice/console": "dev-master",
-    "xervice/data-provider": "dev-master"
+    "xervice/data-provider": "dev-master",
+    "predis/predis": "1.1.*"
   },
   "autoload": {
     "psr-4": {
