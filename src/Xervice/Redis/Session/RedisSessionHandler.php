@@ -40,8 +40,8 @@ class RedisSessionHandler extends AbstractSessionHandler
     public function __construct(RedisClient $client, array $options = [])
     {
         $this->client = $client;
-        $this->prefix = $options['prefix'] ?: 'redis.session.';
-        $this->ttl = $options['ttl'] ?: 86400;
+        $this->prefix = isset($options['prefix']) ? $options['prefix'] : 'redis.session.';
+        $this->ttl = isset($options['ttl']) ? $options['ttl'] : 86400;
         $this->sessionDataProvider = new RedisSessionDataProvider();
     }
 
@@ -72,7 +72,7 @@ class RedisSessionHandler extends AbstractSessionHandler
     protected function doWrite($sessionId, $data)
     {
         $this->sessionDataProvider->setData($data);
-        $this->client->set($this->prefix . $sessionId, $this->sessionDataProvider, 'ex', $this->ttl);
+        $this->client->setEx($this->prefix . $sessionId, $this->sessionDataProvider, 'ex', $this->ttl);
 
         return true;
     }
