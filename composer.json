@@ -17,6 +17,7 @@
     "xervice/core": "dev-master",
     "xervice/console": "dev-master",
     "xervice/data-provider": "dev-master",
+    "xervice/session": "dev-master",
     "predis/predis": "1.1.*"
   },
   "autoload": {

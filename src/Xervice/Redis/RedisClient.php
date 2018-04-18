@@ -17,14 +17,19 @@ class RedisClient extends AbstractClient
     /**
      * @param string $key
      * @param \Xervice\DataProvider\DataProvider\AbstractDataProvider $dataProvider
+     * @param string|null $expireResolution
+     * @param int|null $expires
      *
+     * @return mixed
      * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    public function set(string $key, AbstractDataProvider $dataProvider)
+    public function set(string $key, AbstractDataProvider $dataProvider, string $expireResolution = null, int $expires = null)
     {
-        $this->getFactory()->getRedisClient()->set(
+        return $this->getFactory()->getRedisClient()->set(
             $key,
-            $this->getFactory()->createConverter()->convertTo($dataProvider)
+            $this->getFactory()->createConverter()->convertTo($dataProvider),
+            $expireResolution,
+            $expires
         );
     }
 
@@ -45,6 +50,17 @@ class RedisClient extends AbstractClient
         return $this->getFactory()->createConverter()->convertFrom(
             $result
         );
+    }
+
+    /**
+     * @param $key
+     * @param $seconds
+     *
+     * @throws \Xervice\Config\Exception\ConfigNotFound
+     */
+    public function expire($key, $seconds)
+    {
+        $this->getFactory()->getRedisClient()->expire($key, $seconds);
     }
 
     /**
