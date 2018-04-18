@@ -1,0 +1,30 @@
+{
+  "name"             : "xervice/redis",
+  "license"          : "MIT",
+  "authors"          : [
+    {
+      "name" : "Mike Bertram",
+      "email": "contact@mibexx.de"
+    }
+  ],
+  "require-dev": {
+    "codeception/codeception": "*",
+    "symfony/var-dumper": "*"
+  },
+  "require": {
+    "php": ">=7.1.0",
+    "xervice/config": "dev-master",
+    "xervice/core": "dev-master",
+    "xervice/console": "dev-master",
+    "xervice/data-provider": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "XerviceTest\\": "tests/Xervice/",
+      "DataProvider\\": "src/Generated/"
+    },
+    "psr-0": {
+      "Xervice\\": "src/"
+    }
+  }
+}
