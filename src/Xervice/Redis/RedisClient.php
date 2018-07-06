@@ -15,6 +15,50 @@ use Xervice\Redis\Exception\RedisException;
 class RedisClient extends AbstractClient
 {
     /**
+     * Clear old transactions
+     */
+    public function startTransaction()
+    {
+        $this->getFactory()->getTransactionHandler()->clearCollection();
+    }
+
+    /**
+     * @param string $key
+     * @param \Xervice\DataProvider\DataProvider\AbstractDataProvider $dataProvider
+     */
+    public function addTransaction(string $key, AbstractDataProvider $dataProvider)
+    {
+        $this->getFactory()->getTransactionHandler()->addToCollection(
+            $this->getFactory()->createTransaction(
+                $key,
+                $dataProvider
+            )
+        );
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     * @throws \Xervice\Config\Exception\ConfigNotFound
+     */
+    public function exists(string $key)
+    {
+        return $this->getFactory()->getRedisClient()->exists($key) !== 0;
+    }
+
+    /**
+     * @return array
+     * @throws \Xervice\Config\Exception\ConfigNotFound
+     */
+    public function persistTransaction()
+    {
+        return $this->mset(
+            $this->getFactory()->getTransactionHandler()->getTransactionArray()
+        );
+    }
+
+    /**
      * @param string $key
      * @param \Xervice\DataProvider\DataProvider\AbstractDataProvider $dataProvider
      * @param string $expireResolution
@@ -126,4 +170,5 @@ class RedisClient extends AbstractClient
     public function bulkDelete(array $keys) {
         $this->getFactory()->getRedisClient()->del($keys);
     }
+
 }

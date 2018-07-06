@@ -40,6 +40,7 @@ class IntegrationTest extends \Codeception\Test\Unit
     {
         $provider = $this->getTestProvider();
 
+        $this->assertFalse($this->getClient()->exists('redis.test'));
         $this->getClient()->set('redis.test', $provider);
     }
 
@@ -67,6 +68,8 @@ class IntegrationTest extends \Codeception\Test\Unit
     public function testGetValue()
     {
         $this->testSetValue();
+
+        $this->assertTrue($this->getClient()->exists('redis.test'));
 
         $provider = $this->getClient()->get('redis.test');
         $this->assertEquals(
@@ -155,6 +158,33 @@ class IntegrationTest extends \Codeception\Test\Unit
             'test3',
             $myResult[2]->getKey()
         );
+    }
+
+    public function testTransactions()
+    {
+        $this->getClient()->startTransaction();
+        $this->getClient()->addTransaction(
+            'redis.trans.test1',
+            $this->getTestProvider('test1', 'desc1', 'val1')
+        );
+        $this->getClient()->addTransaction(
+            'redis.trans.test2',
+            $this->getTestProvider('test2', 'desc2', 'val2')
+        );
+        $this->getClient()->addTransaction(
+            'redis.trans.test3',
+            $this->getTestProvider('test3', 'desc3', 'val3')
+        );
+
+        $this->assertFalse($this->getClient()->exists('redis.trans.test1'));
+        $this->assertFalse($this->getClient()->exists('redis.trans.test2'));
+        $this->assertFalse($this->getClient()->exists('redis.trans.test3'));
+
+        $this->getClient()->persistTransaction();
+
+        $this->assertTrue($this->getClient()->exists('redis.trans.test1'));
+        $this->assertTrue($this->getClient()->exists('redis.trans.test2'));
+        $this->assertTrue($this->getClient()->exists('redis.trans.test3'));
     }
 
     /**
