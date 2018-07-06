@@ -46,6 +46,20 @@ class RedisClient extends AbstractClient
             $key,
             $this->getFactory()->createConverter()->convertTo($dataProvider)
         );
+
+    }
+
+    /**
+     * @param array $list
+     *
+     * @return mixed
+     * @throws \Xervice\Config\Exception\ConfigNotFound
+     */
+    public function mset(array $list)
+    {
+        return $this->getFactory()->getRedisClient()->mset(
+            $this->getFactory()->createListConverter()->convertToList($list)
+        );
     }
 
     /**
@@ -53,6 +67,7 @@ class RedisClient extends AbstractClient
      *
      * @return \Xervice\DataProvider\DataProvider\AbstractDataProvider
      * @throws \Xervice\Config\Exception\ConfigNotFound
+     * @throws \Xervice\Redis\Exception\RedisException
      */
     public function get(string $key)
     {
@@ -63,6 +78,21 @@ class RedisClient extends AbstractClient
         }
 
         return $this->getFactory()->createConverter()->convertFrom(
+            $result
+        );
+    }
+
+    /**
+     * @param array $keys
+     *
+     * @return array
+     * @throws \Xervice\Config\Exception\ConfigNotFound
+     */
+    public function mget(array $keys)
+    {
+        $result = $this->getFactory()->getRedisClient()->mget($keys);
+
+        return $this->getFactory()->createListConverter()->convertFromList(
             $result
         );
     }

@@ -11,6 +11,8 @@ use Xervice\Redis\Commands\Provider;
 use Xervice\Redis\Commands\ProviderInterface;
 use Xervice\Redis\Converter\DataConverter;
 use Xervice\Redis\Converter\DataConverterInterface;
+use Xervice\Redis\Converter\ListConverter;
+use Xervice\Redis\Converter\ListConverterInterface;
 
 /**
  * @method \Xervice\Redis\RedisConfig getConfig()
@@ -21,6 +23,16 @@ class RedisFactory extends AbstractFactory
      * @var \Predis\Client
      */
     private $client;
+
+    /**
+     * @return \Xervice\Redis\Converter\ListConverter
+     */
+    public function createListConverter() : ListConverterInterface
+    {
+        return new ListConverter(
+            $this->createConverter()
+        );
+    }
 
     /**
      * @return \Xervice\Redis\Converter\DataConverter

@@ -38,10 +38,7 @@ class IntegrationTest extends \Codeception\Test\Unit
      */
     public function testSetValue()
     {
-        $provider = new TestKeyValueDataProvider();
-        $provider->setKey('test');
-        $provider->setDescription('desc');
-        $provider->setValue('val');
+        $provider = $this->getTestProvider();
 
         $this->getClient()->set('redis.test', $provider);
     }
@@ -105,5 +102,75 @@ class IntegrationTest extends \Codeception\Test\Unit
 
         $this->getClient()->delete('redis.test');
         $this->getClient()->get('redis.test');
+    }
+
+    /**
+     * @throws \Core\Locator\Dynamic\ServiceNotParseable
+     * @throws \Xervice\Config\Exception\ConfigNotFound
+     */
+    public function testMultiSet()
+    {
+        $list = [
+            'redis.test1' => $provider = $this->getTestProvider('test1', 'desc1', 'val1'),
+            'redis.test2' => $provider = $this->getTestProvider('test2', 'desc2', 'val2'),
+            'redis.test3' => $provider = $this->getTestProvider('test3', 'desc3', 'val3')
+        ];
+
+
+        $this->getClient()->mset($list);
+    }
+
+    /**
+     * @throws \Core\Locator\Dynamic\ServiceNotParseable
+     * @throws \Xervice\Config\Exception\ConfigNotFound
+     */
+    public function testMultiGet()
+    {
+        $keys = [
+            'redis.test1',
+            'redis.test2',
+            'redis.test3'
+        ];
+
+        $this->testMultiSet();
+
+        $myResult = $this->getClient()->mget($keys);
+
+        $this->assertCount(
+            3,
+            $myResult
+        );
+
+        $this->assertEquals(
+            'test1',
+            $myResult[0]->getKey()
+        );
+
+        $this->assertEquals(
+            'test2',
+            $myResult[1]->getKey()
+        );
+
+        $this->assertEquals(
+            'test3',
+            $myResult[2]->getKey()
+        );
+    }
+
+    /**
+     * @param string $key
+     * @param string $desc
+     * @param string $val
+     *
+     * @return \DataProvider\TestKeyValueDataProvider
+     */
+    private function getTestProvider(string $key = 'test', string $desc = 'desc', string $val = 'val')
+    {
+        $provider = new TestKeyValueDataProvider();
+        $provider->setKey($key);
+        $provider->setDescription($desc);
+        $provider->setValue($val);
+
+        return $provider;
     }
 }
