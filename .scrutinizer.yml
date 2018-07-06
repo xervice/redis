@@ -1,4 +1,5 @@
 build:
+  root_path: './'
   tests:
     before:
       - 'composer global require xervice/xervicecli'
