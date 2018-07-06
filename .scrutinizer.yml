@@ -2,5 +2,6 @@ build:
   root_path: './'
   tests:
     before:
-      - 'composer global require xervice/xervicecli'
-      - 'xervice da:ge'
+      - mkdir -p ./src/Generated
+      - composer global require xervice/xervicecli
+      - xervice da:ge
