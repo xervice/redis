@@ -1,6 +1,9 @@
 Xervice: Redis
 ======
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/xervice/redis/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/xervice/redis/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/xervice/redis/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/xervice/redis/?branch=master)
+
 Redis client for Xervice components based on DataProvider.
 
 [RedisFacade]->init();  
