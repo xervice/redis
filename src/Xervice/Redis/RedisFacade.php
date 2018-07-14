@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace Xervice\Redis;
@@ -13,18 +14,12 @@ use Xervice\Core\Facade\AbstractFacade;
  */
 class RedisFacade extends AbstractFacade
 {
-    /**
-     * @throws \Xervice\Config\Exception\ConfigNotFound
-     */
-    public function init()
+    public function init(): void
     {
         $this->getFactory()->createCommandProvider()->provideCommands();
     }
 
-    /**
-     * @throws \Xervice\Config\Exception\ConfigNotFound
-     */
-    public function flushAll()
+    public function flushAll(): void
     {
         $this->getFactory()->getRedisClient()->flushall();
     }

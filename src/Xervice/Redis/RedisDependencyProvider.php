@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace Xervice\Redis;
@@ -13,14 +14,14 @@ use Xervice\Redis\Commands\Collection;
  */
 class RedisDependencyProvider extends AbstractProvider
 {
-    const REDIS_COMMAND_COLLECTION = 'redis.command.collection';
+    public const REDIS_COMMAND_COLLECTION = 'redis.command.collection';
 
     /**
-     * @param \Xervice\Core\Dependency\DependencyProviderInterface $container
+     * @param \Xervice\Core\Dependency\DependencyProviderInterface $dependencyProvider
      */
-    public function handleDependencies(DependencyProviderInterface $container)
+    public function handleDependencies(DependencyProviderInterface $dependencyProvider): void
     {
-        $container[self::REDIS_COMMAND_COLLECTION] = function (DependencyProviderInterface $container) {
+        $dependencyProvider[self::REDIS_COMMAND_COLLECTION] = function () {
             return new Collection(
                 $this->getCommands()
             );

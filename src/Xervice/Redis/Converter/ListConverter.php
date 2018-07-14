@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 
 namespace Xervice\Redis\Converter;
 
 
-use Xervice\DataProvider\DataProvider\AbstractDataProvider;
+use Xervice\DataProvider\DataProvider\DataProviderInterface;
 
 class ListConverter implements ListConverterInterface
 {
@@ -40,7 +41,7 @@ class ListConverter implements ListConverterInterface
     }
 
     /**
-     * @param \Xervice\DataProvider\DataProvider\AbstractDataProvider[] $list
+     * @param \Xervice\DataProvider\DataProvider\DataProviderInterface[] $list
      *
      * @return array
      */
@@ -56,11 +57,11 @@ class ListConverter implements ListConverterInterface
     }
 
     /**
-     * @param \Xervice\DataProvider\DataProvider\AbstractDataProvider $dataProvider
+     * @param \Xervice\DataProvider\DataProvider\DataProviderInterface $dataProvider
      *
      * @return string
      */
-    private function convertTo(AbstractDataProvider $dataProvider)
+    private function convertTo(DataProviderInterface $dataProvider): string
     {
         return $this->dataConverter->convertTo($dataProvider);
     }
@@ -68,10 +69,10 @@ class ListConverter implements ListConverterInterface
     /**
      * @param string $element
      *
-     * @return \Xervice\DataProvider\DataProvider\AbstractDataProvider
+     * @return \Xervice\DataProvider\DataProvider\DataProviderInterface
      * @throws \Xervice\Redis\Converter\Exceptions\ConverterException
      */
-    private function convertFrom(string $element) : AbstractDataProvider
+    private function convertFrom(string $element) : DataProviderInterface
     {
         return $this->dataConverter->convertFrom($element);
     }

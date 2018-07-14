@@ -1,23 +1,24 @@
 <?php
+declare(strict_types=1);
 
 namespace Xervice\Redis\Converter;
 
-use Xervice\DataProvider\DataProvider\AbstractDataProvider;
+use Xervice\DataProvider\DataProvider\DataProviderInterface;
 
 interface DataConverterInterface
 {
     /**
-     * @param \Xervice\DataProvider\DataProvider\AbstractDataProvider $dataProvider
+     * @param \Xervice\DataProvider\DataProvider\DataProviderInterface $dataProvider
      *
      * @return string
      */
-    public function convertTo(AbstractDataProvider $dataProvider);
+    public function convertTo(DataProviderInterface $dataProvider): string;
 
     /**
      * @param string $data
      *
-     * @return AbstractDataProvider
+     * @return DataProviderInterface
      * @throws \Xervice\Redis\Converter\Exceptions\ConverterException
      */
-    public function convertFrom(string $data): AbstractDataProvider;
+    public function convertFrom(string $data): DataProviderInterface;
 }

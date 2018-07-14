@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace Xervice\Redis\Commands;
@@ -31,7 +32,7 @@ class Collection implements \Iterator, \Countable
     /**
      * @param \Xervice\Redis\Commands\CommandProviderInterface $validator
      */
-    public function add(CommandProviderInterface $validator)
+    public function add(CommandProviderInterface $validator): void
     {
         $this->collection[] = $validator;
     }
@@ -39,12 +40,12 @@ class Collection implements \Iterator, \Countable
     /**
      * @return \Xervice\Redis\Commands\CommandProviderInterface
      */
-    public function current()
+    public function current(): CommandProviderInterface
     {
         return $this->collection[$this->position];
     }
 
-    public function next()
+    public function next(): void
     {
         $this->position++;
     }
@@ -52,7 +53,7 @@ class Collection implements \Iterator, \Countable
     /**
      * @return int
      */
-    public function key()
+    public function key(): int
     {
         return $this->position;
     }
@@ -60,12 +61,12 @@ class Collection implements \Iterator, \Countable
     /**
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->collection[$this->position]);
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->position = 0;
     }
@@ -73,7 +74,7 @@ class Collection implements \Iterator, \Countable
     /**
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return \count($this->collection);
     }

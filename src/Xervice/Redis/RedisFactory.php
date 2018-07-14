@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace Xervice\Redis;
@@ -87,7 +88,6 @@ class RedisFactory extends AbstractFactory
 
     /**
      * @return \Xervice\Redis\Commands\Provider
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function createCommandProvider(): ProviderInterface
     {
@@ -99,7 +99,6 @@ class RedisFactory extends AbstractFactory
 
     /**
      * @return \Predis\Client
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function createRedisClient(): Client
     {
@@ -111,7 +110,6 @@ class RedisFactory extends AbstractFactory
 
     /**
      * @return \Predis\Client
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function getRedisClient(): Client
     {

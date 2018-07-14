@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace Xervice\Redis\Session;
@@ -40,8 +41,8 @@ class RedisSessionHandler extends AbstractSessionHandler
     public function __construct(RedisClient $client, array $options = [])
     {
         $this->client = $client;
-        $this->prefix = isset($options['prefix']) ? $options['prefix'] : 'session:xervice.';
-        $this->ttl = isset($options['ttl']) ? $options['ttl'] : 86400;
+        $this->prefix = $options['prefix'] ?? 'session:xervice.';
+        $this->ttl = $options['ttl'] ?? 86400;
         $this->sessionDataProvider = new RedisSessionDataProvider();
     }
 
@@ -49,9 +50,8 @@ class RedisSessionHandler extends AbstractSessionHandler
      * @param string $sessionId
      *
      * @return string
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    protected function doRead($sessionId)
+    protected function doRead($sessionId): string
     {
         try {
             $this->sessionDataProvider = $this->client->get($this->prefix . $sessionId);
@@ -67,9 +67,8 @@ class RedisSessionHandler extends AbstractSessionHandler
      * @param string $data
      *
      * @return bool
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    protected function doWrite($sessionId, $data)
+    protected function doWrite($sessionId, $data): bool
     {
         $this->sessionDataProvider->setData($data);
         $this->client->setEx($this->prefix . $sessionId, $this->sessionDataProvider, 'ex', $this->ttl);
@@ -81,9 +80,8 @@ class RedisSessionHandler extends AbstractSessionHandler
      * @param string $sessionId
      *
      * @return bool
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    protected function doDestroy($sessionId)
+    protected function doDestroy($sessionId): bool
     {
         $this->client->delete($this->prefix . $sessionId);
 
@@ -93,7 +91,7 @@ class RedisSessionHandler extends AbstractSessionHandler
     /**
      * @return bool
      */
-    public function close()
+    public function close(): bool
     {
         return true;
     }
@@ -103,7 +101,7 @@ class RedisSessionHandler extends AbstractSessionHandler
      *
      * @return bool
      */
-    public function gc($maxlifetime)
+    public function gc($maxlifetime): bool
     {
         return true;
     }
@@ -113,9 +111,8 @@ class RedisSessionHandler extends AbstractSessionHandler
      * @param string $session_data
      *
      * @return bool
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    public function updateTimestamp($session_id, $session_data)
+    public function updateTimestamp($session_id, $session_data): bool
     {
         $this->client->expire($this->prefix . $session_id, $this->ttl);
 

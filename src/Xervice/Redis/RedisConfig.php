@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace Xervice\Redis;
@@ -8,32 +9,30 @@ use Xervice\Core\Config\AbstractConfig;
 
 class RedisConfig extends AbstractConfig
 {
-    const REDIS = 'redis';
+    public const REDIS = 'redis';
 
-    const REDIS_OPTIONS = 'redis.options';
+    public const REDIS_OPTIONS = 'redis.options';
 
-    const REDIS_HOST = 'redis.host';
+    public const REDIS_HOST = 'redis.host';
 
-    const REDIS_PORT = 'redis.port';
+    public const REDIS_PORT = 'redis.port';
 
-    const REDIS_PASSWORD = 'redis.password';
+    public const REDIS_PASSWORD = 'redis.password';
 
-    const REDIS_DATABASE = 'redis.database';
+    public const REDIS_DATABASE = 'redis.database';
 
     /**
      * @return array
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    public function getRedisConfig()
+    public function getRedisConfig(): array
     {
         return $this->get(self::REDIS);
     }
 
     /**
      * @return array
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    public function getRedisOptions()
+    public function getRedisOptions(): array
     {
         return $this->get(self::REDIS_OPTIONS);
     }

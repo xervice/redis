@@ -1,11 +1,10 @@
 <?php
+declare(strict_types=1);
 
 
 namespace Xervice\Redis\Transaction;
 
 
-
-use Xervice\DataProvider\DataProvider\AbstractDataProvider;
 
 class TransactionHandler implements TransactionHandlerInterface
 {
@@ -27,12 +26,12 @@ class TransactionHandler implements TransactionHandlerInterface
     /**
      * @param \Xervice\Redis\Transaction\TransactionInterface $transaction
      */
-    public function addToCollection(TransactionInterface $transaction)
+    public function addToCollection(TransactionInterface $transaction): void
     {
         $this->collection->add($transaction);
     }
 
-    public function clearCollection()
+    public function clearCollection(): void
     {
         $this->collection->clear();
     }

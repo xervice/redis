@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace Xervice\Redis\Commands;
@@ -30,7 +31,7 @@ class Provider implements ProviderInterface
     }
 
 
-    public function provideCommands()
+    public function provideCommands(): void
     {
         foreach ($this->commandCollection as $commandProvider) {
             $commandProvider->register($this->client);

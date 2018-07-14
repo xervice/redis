@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Xervice\Redis\Transaction;
 
@@ -25,12 +26,12 @@ class TransactionCollection implements \Iterator, \Countable
     /**
      * @return \Xervice\Redis\Transaction\TransactionInterface
      */
-    public function current()
+    public function current(): TransactionInterface
     {
         return $this->collection[$this->position];
     }
 
-    public function next()
+    public function next(): void
     {
         $this->position++;
     }
@@ -38,7 +39,7 @@ class TransactionCollection implements \Iterator, \Countable
     /**
      * @return int
      */
-    public function key()
+    public function key(): int
     {
         return $this->position;
     }
@@ -46,12 +47,12 @@ class TransactionCollection implements \Iterator, \Countable
     /**
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->collection[$this->position]);
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->position = 0;
     }
@@ -59,12 +60,12 @@ class TransactionCollection implements \Iterator, \Countable
     /**
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return \count($this->collection);
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->collection = [];
     }
