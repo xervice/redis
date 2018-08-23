@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Xervice\Redis;
 
 
-use Xervice\Core\Config\AbstractConfig;
+use Xervice\Core\Business\Model\Config\AbstractConfig;
 
 class RedisConfig extends AbstractConfig
 {

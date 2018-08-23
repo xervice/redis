@@ -2,29 +2,28 @@
 declare(strict_types=1);
 
 
-namespace Xervice\Redis\Transaction;
-
+namespace Xervice\Redis\Business\Model\Transaction;
 
 
 class TransactionHandler implements TransactionHandlerInterface
 {
     /**
-     * @var \Xervice\Redis\Transaction\TransactionCollection
+     * @var \Xervice\Redis\Business\Model\Transaction\TransactionCollection
      */
     private $collection;
 
     /**
      * TransactionHandler constructor.
      *
-     * @param \Xervice\Redis\Transaction\TransactionCollection $collection
+     * @param \Xervice\Redis\Business\Model\Transaction\TransactionCollection $collection
      */
-    public function __construct(\Xervice\Redis\Transaction\TransactionCollection $collection)
+    public function __construct(TransactionCollection $collection)
     {
         $this->collection = $collection;
     }
 
     /**
-     * @param \Xervice\Redis\Transaction\TransactionInterface $transaction
+     * @param \Xervice\Redis\Business\Model\Transaction\TransactionInterface $transaction
      */
     public function addToCollection(TransactionInterface $transaction): void
     {

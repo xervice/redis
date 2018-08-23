@@ -2,16 +2,16 @@
 declare(strict_types=1);
 
 
-namespace Xervice\Redis\Converter;
+namespace Xervice\Redis\Business\Model\Converter;
 
 
-use Xervice\DataProvider\DataProvider\DataProviderInterface;
-use Xervice\Redis\Converter\Exceptions\ConverterException;
+use Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface;
+use Xervice\Redis\Business\Exception\ConverterException;
 
 class DataConverter implements DataConverterInterface
 {
     /**
-     * @param \Xervice\DataProvider\DataProvider\DataProviderInterface $dataProvider
+     * @param \Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface $dataProvider
      *
      * @return string
      */
@@ -28,8 +28,8 @@ class DataConverter implements DataConverterInterface
     /**
      * @param string $data
      *
-     * @return \Xervice\DataProvider\DataProvider\DataProviderInterface
-     * @throws \Xervice\Redis\Converter\Exceptions\ConverterException
+     * @return \Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface
+     * @throws \Xervice\Redis\Business\Exception\ConverterException
      */
     public function convertFrom(string $data): DataProviderInterface
     {
@@ -50,7 +50,7 @@ class DataConverter implements DataConverterInterface
     /**
      * @param $provider
      *
-     * @return \Xervice\DataProvider\DataProvider\DataProviderInterface
+     * @return \Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface
      */
     private function createDataProvider($provider): DataProviderInterface
     {

@@ -2,16 +2,19 @@
 namespace XerviceTest\Redis;
 
 use DataProvider\TestKeyValueDataProvider;
-use Xervice\Core\Locator\Dynamic\DynamicLocator;
+use Xervice\Config\Business\XerviceConfig;
+use Xervice\Core\Business\Model\Locator\Dynamic\Business\DynamicBusinessLocator;
+use Xervice\Core\Business\Model\Locator\Locator;
+use Xervice\DataProvider\Business\DataProviderFacade;
+use Xervice\DataProvider\DataProviderConfig;
 
 /**
- * @method \Xervice\Redis\RedisFacade getFacade()
- * @method \Xervice\Redis\RedisClient getClient()
- * @method \Xervice\Redis\RedisFactory getFactory()
+ * @method \Xervice\Redis\Business\RedisFacade getFacade()
+ * @method \Xervice\Redis\Business\RedisBusinessFactory getFactory()
  */
 class IntegrationTest extends \Codeception\Test\Unit
 {
-    use DynamicLocator;
+    use DynamicBusinessLocator;
 
     /**
      * @var \XerviceTest\XerviceTester
@@ -20,6 +23,10 @@ class IntegrationTest extends \Codeception\Test\Unit
 
     protected function _before()
     {
+        XerviceConfig::set(DataProviderConfig::FILE_PATTERN, '*.dataprovider.xml');
+        $this->getDataProviderFacade()->generateDataProvider();
+        XerviceConfig::set(DataProviderConfig::FILE_PATTERN, '*.testprovider.xml');
+        $this->getDataProviderFacade()->generateDataProvider();
         $this->getFacade()->init();
     }
 
@@ -32,16 +39,13 @@ class IntegrationTest extends \Codeception\Test\Unit
      * @group Xervice
      * @group Redis
      * @group Integration
-     *
-     * @throws \Core\Locator\Dynamic\ServiceNotParseable
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function testSetValue()
     {
         $provider = $this->getTestProvider();
 
-        $this->assertFalse($this->getClient()->exists('redis.test'));
-        $this->getClient()->set('redis.test', $provider);
+        $this->assertFalse($this->getFacade()->exists('redis.test'));
+        $this->getFacade()->set('redis.test', $provider);
     }
 
     /**
@@ -49,29 +53,26 @@ class IntegrationTest extends \Codeception\Test\Unit
      * @group Redis
      * @group Integration
      *
-     * @expectedException \Xervice\Redis\Exception\RedisException
+     * @expectedException \Xervice\Redis\Business\Exception\RedisException
      * @expectedExceptionMessage No value found for key redis.test
      */
     public function testGetValueWithException()
     {
-        $provider = $this->getClient()->get('redis.test');
+        $provider = $this->getFacade()->get('redis.test');
     }
 
     /**
      * @group Xervice
      * @group Redis
      * @group Integration
-     *
-     * @throws \Core\Locator\Dynamic\ServiceNotParseable
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function testGetValue()
     {
         $this->testSetValue();
 
-        $this->assertTrue($this->getClient()->exists('redis.test'));
+        $this->assertTrue($this->getFacade()->exists('redis.test'));
 
-        $provider = $this->getClient()->get('redis.test');
+        $provider = $this->getFacade()->get('redis.test');
         $this->assertEquals(
             'test',
             $provider->getKey()
@@ -93,24 +94,17 @@ class IntegrationTest extends \Codeception\Test\Unit
      * @group Redis
      * @group Integration
      *
-     * @expectedException \Xervice\Redis\Exception\RedisException
+     * @expectedException \Xervice\Redis\Business\Exception\RedisException
      * @expectedExceptionMessage No value found for key redis.test
-     *
-     * @throws \Core\Locator\Dynamic\ServiceNotParseable
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function testDelete()
     {
         $this->testSetValue();
 
-        $this->getClient()->delete('redis.test');
-        $this->getClient()->get('redis.test');
+        $this->getFacade()->delete('redis.test');
+        $this->getFacade()->get('redis.test');
     }
 
-    /**
-     * @throws \Core\Locator\Dynamic\ServiceNotParseable
-     * @throws \Xervice\Config\Exception\ConfigNotFound
-     */
     public function testMultiSet()
     {
         $list = [
@@ -120,13 +114,9 @@ class IntegrationTest extends \Codeception\Test\Unit
         ];
 
 
-        $this->getClient()->mset($list);
+        $this->getFacade()->mset($list);
     }
 
-    /**
-     * @throws \Core\Locator\Dynamic\ServiceNotParseable
-     * @throws \Xervice\Config\Exception\ConfigNotFound
-     */
     public function testMultiGet()
     {
         $keys = [
@@ -137,7 +127,7 @@ class IntegrationTest extends \Codeception\Test\Unit
 
         $this->testMultiSet();
 
-        $myResult = $this->getClient()->mget($keys);
+        $myResult = $this->getFacade()->mget($keys);
 
         $this->assertCount(
             3,
@@ -162,29 +152,29 @@ class IntegrationTest extends \Codeception\Test\Unit
 
     public function testTransactions()
     {
-        $this->getClient()->startTransaction();
-        $this->getClient()->addTransaction(
+        $this->getFacade()->startTransaction();
+        $this->getFacade()->addTransaction(
             'redis.trans.test1',
             $this->getTestProvider('test1', 'desc1', 'val1')
         );
-        $this->getClient()->addTransaction(
+        $this->getFacade()->addTransaction(
             'redis.trans.test2',
             $this->getTestProvider('test2', 'desc2', 'val2')
         );
-        $this->getClient()->addTransaction(
+        $this->getFacade()->addTransaction(
             'redis.trans.test3',
             $this->getTestProvider('test3', 'desc3', 'val3')
         );
 
-        $this->assertFalse($this->getClient()->exists('redis.trans.test1'));
-        $this->assertFalse($this->getClient()->exists('redis.trans.test2'));
-        $this->assertFalse($this->getClient()->exists('redis.trans.test3'));
+        $this->assertFalse($this->getFacade()->exists('redis.trans.test1'));
+        $this->assertFalse($this->getFacade()->exists('redis.trans.test2'));
+        $this->assertFalse($this->getFacade()->exists('redis.trans.test3'));
 
-        $this->getClient()->persistTransaction();
+        $this->getFacade()->persistTransaction();
 
-        $this->assertTrue($this->getClient()->exists('redis.trans.test1'));
-        $this->assertTrue($this->getClient()->exists('redis.trans.test2'));
-        $this->assertTrue($this->getClient()->exists('redis.trans.test3'));
+        $this->assertTrue($this->getFacade()->exists('redis.trans.test1'));
+        $this->assertTrue($this->getFacade()->exists('redis.trans.test2'));
+        $this->assertTrue($this->getFacade()->exists('redis.trans.test3'));
     }
 
     /**
@@ -203,4 +193,13 @@ class IntegrationTest extends \Codeception\Test\Unit
 
         return $provider;
     }
+
+    /**
+     * @return \Xervice\DataProvider\Business\DataProviderFacade
+     */
+    private function getDataProviderFacade(): DataProviderFacade
+    {
+        return Locator::getInstance()->dataProvider()->facade();
+    }
+
 }

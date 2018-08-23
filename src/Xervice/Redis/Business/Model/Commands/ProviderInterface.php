@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Xervice\Redis\Commands;
+namespace Xervice\Redis\Business\Model\Commands;
 
 interface ProviderInterface
 {

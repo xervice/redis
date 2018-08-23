@@ -2,10 +2,10 @@
 declare(strict_types=1);
 
 
-namespace Xervice\Redis\Transaction;
+namespace Xervice\Redis\Business\Model\Transaction;
 
 
-use Xervice\DataProvider\DataProvider\AbstractDataProvider;
+use Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider;
 
 class Transaction implements TransactionInterface
 {
@@ -23,7 +23,7 @@ class Transaction implements TransactionInterface
      * Transaction constructor.
      *
      * @param string $key
-     * @param AbstractDataProvider $dataProvider
+     * @param \Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider $dataProvider
      */
     public function __construct(string $key, AbstractDataProvider $dataProvider)
     {
@@ -40,7 +40,7 @@ class Transaction implements TransactionInterface
     }
 
     /**
-     * @return AbstractDataProvider
+     * @return \Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider
      */
     public function getDataProvider(): AbstractDataProvider
     {

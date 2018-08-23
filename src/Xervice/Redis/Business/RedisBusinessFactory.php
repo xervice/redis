@@ -2,29 +2,30 @@
 declare(strict_types=1);
 
 
-namespace Xervice\Redis;
+namespace Xervice\Redis\Business;
 
 
 use Predis\Client;
-use Xervice\Core\Factory\AbstractFactory;
-use Xervice\DataProvider\DataProvider\AbstractDataProvider;
-use Xervice\Redis\Commands\Collection;
-use Xervice\Redis\Commands\Provider;
-use Xervice\Redis\Commands\ProviderInterface;
-use Xervice\Redis\Converter\DataConverter;
-use Xervice\Redis\Converter\DataConverterInterface;
-use Xervice\Redis\Converter\ListConverter;
-use Xervice\Redis\Converter\ListConverterInterface;
-use Xervice\Redis\Transaction\Transaction;
-use Xervice\Redis\Transaction\TransactionCollection;
-use Xervice\Redis\Transaction\TransactionHandler;
-use Xervice\Redis\Transaction\TransactionHandlerInterface;
-use Xervice\Redis\Transaction\TransactionInterface;
+use Xervice\Core\Business\Model\Factory\AbstractBusinessFactory;
+use Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider;
+use Xervice\Redis\Business\Model\Commands\Collection;
+use Xervice\Redis\Business\Model\Commands\Provider;
+use Xervice\Redis\Business\Model\Commands\ProviderInterface;
+use Xervice\Redis\Business\Model\Converter\DataConverter;
+use Xervice\Redis\Business\Model\Converter\DataConverterInterface;
+use Xervice\Redis\Business\Model\Converter\ListConverter;
+use Xervice\Redis\Business\Model\Converter\ListConverterInterface;
+use Xervice\Redis\Business\Model\Transaction\Transaction;
+use Xervice\Redis\Business\Model\Transaction\TransactionCollection;
+use Xervice\Redis\Business\Model\Transaction\TransactionHandler;
+use Xervice\Redis\Business\Model\Transaction\TransactionHandlerInterface;
+use Xervice\Redis\Business\Model\Transaction\TransactionInterface;
+use Xervice\Redis\RedisDependencyProvider;
 
 /**
  * @method \Xervice\Redis\RedisConfig getConfig()
  */
-class RedisFactory extends AbstractFactory
+class RedisBusinessFactory extends AbstractBusinessFactory
 {
     /**
      * @var \Predis\Client
@@ -32,15 +33,15 @@ class RedisFactory extends AbstractFactory
     private $client;
 
     /**
-     * @var TransactionHandlerInterface
+     * @var \Xervice\Redis\Business\Model\Transaction\TransactionHandlerInterface
      */
     private $transationHandler;
 
     /**
      * @param string $key
-     * @param \Xervice\DataProvider\DataProvider\AbstractDataProvider $dataProvider
+     * @param \Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider $dataProvider
      *
-     * @return \Xervice\Redis\Transaction\Transaction
+     * @return \Xervice\Redis\Business\Model\Transaction\TransactionInterface
      */
     public function createTransaction(string $key, AbstractDataProvider $dataProvider) : TransactionInterface
     {
@@ -51,7 +52,7 @@ class RedisFactory extends AbstractFactory
     }
 
     /**
-     * @return \Xervice\Redis\Transaction\TransactionHandler
+     * @return \Xervice\Redis\Business\Model\Transaction\TransactionHandlerInterface
      */
     public function createTransactionHandler() : TransactionHandlerInterface
     {
@@ -61,7 +62,7 @@ class RedisFactory extends AbstractFactory
     }
 
     /**
-     * @return \Xervice\Redis\Transaction\TransactionCollection
+     * @return \Xervice\Redis\Business\Model\Transaction\TransactionCollection
      */
     public function createTransactionCollection() : TransactionCollection
     {
@@ -69,7 +70,7 @@ class RedisFactory extends AbstractFactory
     }
 
     /**
-     * @return \Xervice\Redis\Converter\ListConverter
+     * @return \Xervice\Redis\Business\Model\Converter\ListConverterInterface
      */
     public function createListConverter() : ListConverterInterface
     {
@@ -79,7 +80,7 @@ class RedisFactory extends AbstractFactory
     }
 
     /**
-     * @return \Xervice\Redis\Converter\DataConverter
+     * @return \Xervice\Redis\Business\Model\Converter\DataConverterInterface
      */
     public function createConverter(): DataConverterInterface
     {
@@ -87,7 +88,7 @@ class RedisFactory extends AbstractFactory
     }
 
     /**
-     * @return \Xervice\Redis\Commands\Provider
+     * @return \Xervice\Redis\Business\Model\Commands\ProviderInterface
      */
     public function createCommandProvider(): ProviderInterface
     {
@@ -120,7 +121,7 @@ class RedisFactory extends AbstractFactory
     }
 
     /**
-     * @return \Xervice\Redis\Commands\Collection
+     * @return \Xervice\Redis\Business\Model\Commands\Collection
      */
     public function getCommandCollection(): Collection
     {
@@ -128,7 +129,7 @@ class RedisFactory extends AbstractFactory
     }
 
     /**
-     * @return \Xervice\Redis\Transaction\TransactionHandler
+     * @return \Xervice\Redis\Business\Model\Transaction\TransactionHandlerInterface
      */
     public function getTransactionHandler() : TransactionHandlerInterface
     {

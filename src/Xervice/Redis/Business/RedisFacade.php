@@ -2,20 +2,29 @@
 declare(strict_types=1);
 
 
-namespace Xervice\Redis;
+namespace Xervice\Redis\Business;
 
-
-use Xervice\Core\Client\AbstractClient;
-use Xervice\DataProvider\DataProvider\AbstractDataProvider;
-use Xervice\DataProvider\DataProvider\DataProviderInterface;
-use Xervice\Redis\Exception\RedisException;
+use Xervice\Core\Business\Model\Facade\AbstractFacade;
+use Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider;
+use Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface;
+use Xervice\Redis\Business\Exception\RedisException;
 
 /**
- * @method \Xervice\Redis\RedisFactory getFactory()
+ * @method \Xervice\Redis\Business\RedisBusinessFactory getFactory()
  * @method \Xervice\Redis\RedisConfig getConfig()
  */
-class RedisClient extends AbstractClient
+class RedisFacade extends AbstractFacade
 {
+    public function init(): void
+    {
+        $this->getFactory()->createCommandProvider()->provideCommands();
+    }
+
+    public function flushAll(): void
+    {
+        $this->getFactory()->getRedisClient()->flushall();
+    }
+
     /**
      * Clear old transactions
      */
@@ -26,7 +35,7 @@ class RedisClient extends AbstractClient
 
     /**
      * @param string $key
-     * @param \Xervice\DataProvider\DataProvider\AbstractDataProvider $dataProvider
+     * @param \Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider $dataProvider
      */
     public function addTransaction(string $key, AbstractDataProvider $dataProvider): void
     {
@@ -60,7 +69,7 @@ class RedisClient extends AbstractClient
 
     /**
      * @param string $key
-     * @param \Xervice\DataProvider\DataProvider\AbstractDataProvider $dataProvider
+     * @param \Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider $dataProvider
      * @param string $expireResolution
      * @param int $expireTTL
      *
@@ -82,7 +91,7 @@ class RedisClient extends AbstractClient
 
     /**
      * @param string $key
-     * @param \Xervice\DataProvider\DataProvider\AbstractDataProvider $dataProvider
+     * @param \Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider $dataProvider
      *
      * @return mixed
      */
@@ -109,8 +118,8 @@ class RedisClient extends AbstractClient
     /**
      * @param string $key
      *
-     * @return \Xervice\DataProvider\DataProvider\DataProviderInterface
-     * @throws \Xervice\Redis\Exception\RedisException
+     * @return \Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface
+     * @throws \Xervice\Redis\Business\Exception\RedisException
      */
     public function get(string $key): DataProviderInterface
     {

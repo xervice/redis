@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Xervice\Redis\Transaction;
+namespace Xervice\Redis\Business\Model\Transaction;
 
 class TransactionCollection implements \Iterator, \Countable
 {
     /**
-     * @var \Xervice\Redis\Transaction\TransactionInterface[]
+     * @var \Xervice\Redis\Business\Model\Transaction\TransactionInterface[]
      */
     private $collection = [];
 
@@ -16,7 +16,7 @@ class TransactionCollection implements \Iterator, \Countable
     private $position;
 
     /**
-     * @param \Xervice\Redis\Transaction\TransactionInterface $validator
+     * @param \Xervice\Redis\Business\Model\Transaction\TransactionInterface $validator
      */
     public function add(TransactionInterface $validator)
     {
@@ -24,7 +24,7 @@ class TransactionCollection implements \Iterator, \Countable
     }
 
     /**
-     * @return \Xervice\Redis\Transaction\TransactionInterface
+     * @return \Xervice\Redis\Business\Model\Transaction\TransactionInterface
      */
     public function current(): TransactionInterface
     {

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Xervice\Redis\Converter;
+namespace Xervice\Redis\Business\Model\Converter;
 
 interface ListConverterInterface
 {

@@ -2,22 +2,22 @@
 declare(strict_types=1);
 
 
-namespace Xervice\Redis\Converter;
+namespace Xervice\Redis\Business\Model\Converter;
 
 
-use Xervice\DataProvider\DataProvider\DataProviderInterface;
+use Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface;
 
 class ListConverter implements ListConverterInterface
 {
     /**
-     * @var \Xervice\Redis\Converter\DataConverterInterface
+     * @var \Xervice\Redis\Business\Model\Converter\DataConverterInterface
      */
     private $dataConverter;
 
     /**
      * ListConverter constructor.
      *
-     * @param \Xervice\Redis\Converter\DataConverterInterface $dataConverter
+     * @param \Xervice\Redis\Business\Model\Converter\DataConverterInterface $dataConverter
      */
     public function __construct(DataConverterInterface $dataConverter)
     {
@@ -41,7 +41,7 @@ class ListConverter implements ListConverterInterface
     }
 
     /**
-     * @param \Xervice\DataProvider\DataProvider\DataProviderInterface[] $list
+     * @param \Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface[] $list
      *
      * @return array
      */
@@ -57,7 +57,7 @@ class ListConverter implements ListConverterInterface
     }
 
     /**
-     * @param \Xervice\DataProvider\DataProvider\DataProviderInterface $dataProvider
+     * @param \Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface $dataProvider
      *
      * @return string
      */
@@ -69,8 +69,7 @@ class ListConverter implements ListConverterInterface
     /**
      * @param string $element
      *
-     * @return \Xervice\DataProvider\DataProvider\DataProviderInterface
-     * @throws \Xervice\Redis\Converter\Exceptions\ConverterException
+     * @return \Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface
      */
     private function convertFrom(string $element) : DataProviderInterface
     {

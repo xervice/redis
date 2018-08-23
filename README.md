@@ -8,8 +8,8 @@ Redis client for Xervice components based on DataProvider.
 
 [RedisFacade]->init();  
   
-[RedisClient]->set('name', new AbstractDataProvider());  
-[RedisClient]->get('name');
+[RedisFacade]->set('name', new AbstractDataProvider());
+[RedisFacade]->get('name');
 
 
 Config
