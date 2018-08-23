@@ -8,7 +8,7 @@ use Xervice\Core\Business\Model\Locator\Dynamic\Business\DynamicBusinessLocator;
 use Xervice\Core\Business\Model\Locator\Locator;
 use Xervice\DataProvider\Business\DataProviderFacade;
 use Xervice\DataProvider\DataProviderConfig;
-use Xervice\Redis\Business\Model\Session\RedisSessionHandler;
+use Xervice\Redis\Communication\Plugin\RedisSessionHandler;
 
 /**
  * @method \Xervice\Redis\Business\RedisBusinessFactory getFactory()
@@ -45,7 +45,7 @@ class IntegrationTest extends \Codeception\Test\Unit
      */
     public function testRedisSession()
     {
-        $storage = new NativeSessionStorage([], new RedisSessionHandler($this->getFacade()));
+        $storage = new NativeSessionStorage([], new RedisSessionHandler());
         $session = new Session($storage);
 
         $session->set('test', 'hallo');
