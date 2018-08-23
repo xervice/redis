@@ -48,11 +48,11 @@ class DataConverter implements DataConverterInterface
     }
 
     /**
-     * @param $provider
+     * @param string $provider
      *
      * @return \Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface
      */
-    private function createDataProvider($provider): DataProviderInterface
+    private function createDataProvider(string $provider): DataProviderInterface
     {
         $provider = new $provider();
         return $provider;

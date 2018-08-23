@@ -9,7 +9,7 @@ use Predis\Client;
 class Provider implements ProviderInterface
 {
     /**
-     * @var \Xervice\Redis\Commands\Collection
+     * @var \Xervice\Redis\Business\Model\Commands\Collection
      */
     private $commandCollection;
 
@@ -21,7 +21,7 @@ class Provider implements ProviderInterface
     /**
      * Provider constructor.
      *
-     * @param \Xervice\Redis\Commands\Collection $commandCollection
+     * @param \Xervice\Redis\Business\Model\Commands\Collection $commandCollection
      * @param \Predis\Client $client
      */
     public function __construct(Collection $commandCollection, Client $client)

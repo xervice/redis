@@ -9,7 +9,7 @@ use Xervice\Core\Business\Model\Locator\Dynamic\Business\DynamicBusinessLocator;
 use Xervice\Redis\Business\Exception\RedisException;
 
 /**
- * @method \Xervice\Session\Business\SessionFacade getFacade()
+ * @method \Xervice\Redis\Business\RedisFacade getFacade()
  */
 class RedisSessionHandler extends AbstractSessionHandler
 {
@@ -33,7 +33,6 @@ class RedisSessionHandler extends AbstractSessionHandler
     /**
      * RedisSessionHandler constructor.
      *
-     * @param \Xervice\Redis\Business\RedisFacade $facade
      * @param array $options
      */
     public function __construct(array $options = [])

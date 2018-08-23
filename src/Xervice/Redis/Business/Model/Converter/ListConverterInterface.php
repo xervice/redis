@@ -13,7 +13,7 @@ interface ListConverterInterface
     public function convertFromList(array $list): array;
 
     /**
-     * @param \Xervice\DataProvider\DataProvider\AbstractDataProvider[] $list
+     * @param \Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider[] $list
      *
      * @return array
      */

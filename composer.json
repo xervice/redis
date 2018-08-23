@@ -34,6 +34,6 @@
     }
   },
   "scripts": {
-    "phpstan": "vendor/bin/phpstan analyse src/Xervice --level=7"
+    "phpstan": "vendor/bin/phpstan analyse src/Xervice --level=1"
   }
 }

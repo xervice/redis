@@ -8,7 +8,7 @@ namespace Xervice\Redis\Business\Model\Commands;
 class Collection implements \Iterator, \Countable
 {
     /**
-     * @var \Xervice\Redis\Commands\CommandProviderInterface[]
+     * @var \Xervice\Redis\Business\Model\Commands\CommandProviderInterface[]
      */
     private $collection;
 
@@ -20,7 +20,7 @@ class Collection implements \Iterator, \Countable
     /**
      * Collection constructor.
      *
-     * @param \Xervice\Redis\Commands\CommandProviderInterface[] $collection
+     * @param \Xervice\Redis\Business\Model\Commands\CommandProviderInterface[] $collection
      */
     public function __construct(array $collection)
     {
@@ -30,7 +30,7 @@ class Collection implements \Iterator, \Countable
     }
 
     /**
-     * @param \Xervice\Redis\Commands\CommandProviderInterface $validator
+     * @param \Xervice\Redis\Business\Model\Commands\CommandProviderInterface $validator
      */
     public function add(CommandProviderInterface $validator): void
     {
@@ -38,7 +38,7 @@ class Collection implements \Iterator, \Countable
     }
 
     /**
-     * @return \Xervice\Redis\Commands\CommandProviderInterface
+     * @return \Xervice\Redis\Business\Model\Commands\CommandProviderInterface
      */
     public function current(): CommandProviderInterface
     {

@@ -149,10 +149,10 @@ class RedisFacade extends AbstractFacade
     }
 
     /**
-     * @param $key
-     * @param $seconds
+     * @param string $key
+     * @param int $seconds
      */
-    public function expire($key, $seconds): void
+    public function expire(string $key, int $seconds): void
     {
         $this->getFactory()->getRedisClient()->expire($key, $seconds);
     }
