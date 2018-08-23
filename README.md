@@ -6,14 +6,19 @@ Xervice: Redis
 
 Redis client for Xervice components based on DataProvider.
 
-[RedisFacade]->init();  
-  
-[RedisFacade]->set('name', new AbstractDataProvider());
-[RedisFacade]->get('name');
+
+Installation
+--------------
+```
+composer install xervice/redis
+```
+
+To use redis, you must add the plugin \Xervice\Redis\Communication\Plugin\RedisService to your kernel stack.
+If you want to use redis as session storage, you can change the sessionhandler to \Xervice\Redis\Communication\Plugin\RedisSessionHandler.
 
 
-Config
-----
+Configure
+----------
 ```php
 <?php
 
@@ -43,4 +48,17 @@ $config[RedisConfig::REDIS] = [
     'host'   => $config[RedisConfig::REDIS_HOST],
     'port'   => $config[RedisConfig::REDIS_PORT]
 ];
+```
+
+
+Usage
+------
+```php
+Locator::getInstance()->redis()->facade()->init();
+
+Locator::getInstance()->redis()->facade()->set(...);
+Locator::getInstance()->redis()->facade()->get(...);
+Locator::getInstance()->redis()->facade()->mget(...);
+Locator::getInstance()->redis()->facade()->mset(...);
+//...
 ```

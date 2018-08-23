@@ -1,21 +1,19 @@
 <?php
 declare(strict_types=1);
 
-
-namespace Xervice\Redis\Business\Model\Session;
-
+namespace Xervice\Redis\Communication\Plugin;
 
 use DataProvider\RedisSessionDataProvider;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\AbstractSessionHandler;
+use Xervice\Core\Business\Model\Locator\Dynamic\Business\DynamicBusinessLocator;
 use Xervice\Redis\Business\Exception\RedisException;
-use Xervice\Redis\Business\RedisFacade;
 
+/**
+ * @method \Xervice\Session\Business\SessionFacade getFacade()
+ */
 class RedisSessionHandler extends AbstractSessionHandler
 {
-    /**
-     * @var \Xervice\Redis\Business\RedisFacade
-     */
-    private $facade;
+    use DynamicBusinessLocator;
 
     /**
      * @var string
@@ -38,9 +36,8 @@ class RedisSessionHandler extends AbstractSessionHandler
      * @param \Xervice\Redis\Business\RedisFacade $facade
      * @param array $options
      */
-    public function __construct(RedisFacade $facade, array $options = [])
+    public function __construct(array $options = [])
     {
-        $this->facade = $facade;
         $this->prefix = $options['prefix'] ?? 'session:xervice.';
         $this->ttl = $options['ttl'] ?? 86400;
         $this->sessionDataProvider = new RedisSessionDataProvider();
@@ -54,7 +51,7 @@ class RedisSessionHandler extends AbstractSessionHandler
     protected function doRead($sessionId): string
     {
         try {
-            $this->sessionDataProvider = $this->facade->get($this->prefix . $sessionId);
+            $this->sessionDataProvider = $this->getFacade()->get($this->prefix . $sessionId);
         } catch (RedisException $exception) {
             $this->sessionDataProvider->setData('');
         }
@@ -71,7 +68,7 @@ class RedisSessionHandler extends AbstractSessionHandler
     protected function doWrite($sessionId, $data): bool
     {
         $this->sessionDataProvider->setData($data);
-        $this->facade->setEx($this->prefix . $sessionId, $this->sessionDataProvider, 'ex', $this->ttl);
+        $this->getFacade()->setEx($this->prefix . $sessionId, $this->sessionDataProvider, 'ex', $this->ttl);
 
         return true;
     }
@@ -83,7 +80,7 @@ class RedisSessionHandler extends AbstractSessionHandler
      */
     protected function doDestroy($sessionId): bool
     {
-        $this->facade->delete($this->prefix . $sessionId);
+        $this->getFacade()->delete($this->prefix . $sessionId);
 
         return true;
     }
@@ -114,7 +111,7 @@ class RedisSessionHandler extends AbstractSessionHandler
      */
     public function updateTimestamp($session_id, $session_data): bool
     {
-        $this->facade->expire($this->prefix . $session_id, $this->ttl);
+        $this->getFacade()->expire($this->prefix . $session_id, $this->ttl);
 
         return true;
     }
