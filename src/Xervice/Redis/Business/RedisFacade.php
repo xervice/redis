@@ -135,6 +135,28 @@ class RedisFacade extends AbstractFacade
     }
 
     /**
+     * @param string $search
+     *
+     * @return array
+     */
+    public function mgetByKeys(string $search): array
+    {
+        return $this->mget(
+            $this->keys($search)
+        );
+    }
+
+    /**
+     * @param string $search
+     *
+     * @return array
+     */
+    public function keys(string $search): array
+    {
+        return $this->getFactory()->getRedisClient()->keys($search);
+    }
+
+    /**
      * @param array $keys
      *
      * @return array
